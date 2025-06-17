@@ -44,3 +44,11 @@ python job_db/load_job_profiles.py
 This project stores resumes in S3, metadata in RDS, and uses Langchain with Retrieval-Augmented Generation to craft job-specific resumes and cover letters.
 
 The `src/rag` package contains helpers for Langchain's retrieval-augmented generation. Use `vector_store.build_store()` to build a FAISS index from S3 resumes and `generation.make_chain()` to create the RetrievalQA chain.
+
+## Development
+
+Run lint and tests locally with:
+```bash
+flake8
+pytest -q
+```

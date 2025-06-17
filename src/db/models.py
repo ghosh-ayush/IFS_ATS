@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, ForeignKey, ARRAY
+from sqlalchemy import Column, Integer, String, Text, TIMESTAMP, ForeignKey, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import func
 
@@ -23,5 +23,5 @@ class JobProfile(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String(255), nullable=False)
     description = Column(Text, nullable=False)
-    skills = Column(ARRAY(String), nullable=False)
+    skills = Column(JSON, nullable=False)
     experience_level = Column(String(100))

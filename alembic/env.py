@@ -1,9 +1,14 @@
+import sys
+from pathlib import Path
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 
-from src.db.models import Base
-from src.config import DB_URL
+ROOT_DIR = Path(__file__).resolve().parents[1]
+sys.path.append(str(ROOT_DIR))
+
+from src.db.models import Base  # noqa: E402
+from src.config import DB_URL  # noqa: E402
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
