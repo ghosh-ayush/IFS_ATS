@@ -9,4 +9,5 @@ schedule
 jose
 prometheus-client
 flake8
+pytest
 
