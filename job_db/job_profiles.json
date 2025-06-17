@@ -1,0 +1,14 @@
+[
+  {
+    "title": "Software Engineer",
+    "description": "Develop and maintain software applications.",
+    "skills": ["python", "git"],
+    "experience_level": "Mid"
+  },
+  {
+    "title": "Data Scientist",
+    "description": "Analyze data and build predictive models.",
+    "skills": ["python", "statistics"],
+    "experience_level": "Senior"
+  }
+]
