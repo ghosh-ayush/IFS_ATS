@@ -1,5 +1,5 @@
 """Central configuration loader using python-decouple."""
-
+import os
 from decouple import config
 
 AWS_ACCESS_KEY_ID = config("AWS_ACCESS_KEY_ID")
