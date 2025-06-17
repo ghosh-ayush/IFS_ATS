@@ -19,6 +19,10 @@ A skeleton project for an ATS-friendly resume generator using Langchain and AWS.
 
 1. Copy `.env.example` to `.env` and fill in your AWS and OpenAI credentials.
    Configuration variables are loaded with `python-decouple` from this file.
+The `scripts/setup_db.sh` script used in CI checks for required RDS environment
+variables and simply skips setup if they are missing. This allows the workflow
+to succeed even when database credentials aren't provided.
+
    
 2. Install dependencies:
    ```bash
