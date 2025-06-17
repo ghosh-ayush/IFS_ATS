@@ -5,3 +5,8 @@ langchain
 SQLAlchemy
 python-decouple
 alembic
+schedule
+jose
+prometheus-client
+flake8
+
