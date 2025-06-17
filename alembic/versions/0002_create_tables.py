@@ -29,7 +29,7 @@ def upgrade() -> None:
         sa.Column('id', sa.Integer, primary_key=True),
         sa.Column('title', sa.String(255), nullable=False),
         sa.Column('description', sa.Text, nullable=False),
-        sa.Column('skills', sa.ARRAY(sa.String)),
+        sa.Column('skills', sa.JSON),
         sa.Column('experience_level', sa.String(100)),
     )
 
