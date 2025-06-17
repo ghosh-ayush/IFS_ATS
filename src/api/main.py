@@ -1,7 +1,8 @@
 import logging
 from fastapi import FastAPI, UploadFile, Depends
 from sqlalchemy.orm import Session
-from prometheus_client import Counter, generate_latest
+import boto3
+from mangum import Mangum
 
 from src.api.auth import get_current_user
 
@@ -14,7 +15,14 @@ from src.rag.generation import make_chain
 logging.basicConfig(level=logging.INFO)
 app = FastAPI()
 
-REQUEST_COUNT = Counter("requests_total", "Total HTTP requests", ["endpoint"])
+cloudwatch = boto3.client("cloudwatch")
+
+def log_metric(name: str) -> None:
+    """Send a custom metric to CloudWatch."""
+    cloudwatch.put_metric_data(
+        Namespace="IFSATS",
+        MetricData=[{"MetricName": name, "Value": 1, "Unit": "Count"}],
+    )
 
 Base.metadata.create_all(bind=engine)
 
@@ -34,7 +42,7 @@ async def upload_resume(
     db: Session = Depends(get_db),
     _: int = Depends(get_current_user),
 ):
-    REQUEST_COUNT.labels(endpoint="upload_resume").inc()
+    log_metric("upload_resume")
     key = f"{user_id}/{file.filename}"
     upload_fileobj(file.file, key)
     db.add(Resume(user_id=user_id, s3_key=key))
@@ -45,7 +53,7 @@ async def upload_resume(
 
 @app.get("/job-profiles/")
 def list_job_profiles(db: Session = Depends(get_db), _: int = Depends(get_current_user)):
-    REQUEST_COUNT.labels(endpoint="job_profiles").inc()
+    log_metric("job_profiles")
     return db.query(JobProfile).all()
 
 
@@ -56,7 +64,7 @@ def generate_application(
     db: Session = Depends(get_db),
     _: int = Depends(get_current_user),
 ):
-    REQUEST_COUNT.labels(endpoint="generate").inc()
+    log_metric("generate")
     resumes = db.query(Resume).filter_by(user_id=user_id).all()
     keys = [r.s3_key for r in resumes]
     index_key = f"{user_id}/faiss.index"
@@ -65,7 +73,4 @@ def generate_application(
     logging.info("generated application for user %s", user_id)
     return chain.run(job_description)
 
-
-@app.get("/metrics")
-def metrics():
-    return generate_latest(), 200, {"Content-Type": "text/plain"}
+handler = Mangum(app)

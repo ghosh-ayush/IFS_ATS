@@ -8,7 +8,9 @@ alembic
 psycopg2-binary
 schedule
 jose
-prometheus-client
+mangum
+opensearch-py
+langchain-community
 flake8
 pytest
 
