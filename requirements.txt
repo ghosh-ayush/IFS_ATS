@@ -5,6 +5,7 @@ langchain
 SQLAlchemy
 python-decouple
 alembic
+psycopg2-binary
 schedule
 jose
 prometheus-client

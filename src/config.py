@@ -29,6 +29,9 @@ RDS_PASS = config("RDS_PASS", default=_secrets.get("RDS_PASS"))
 RDS_DB = config("RDS_DB", default=_secrets.get("RDS_DB"))
 OPENAI_API_KEY = config("OPENAI_API_KEY", default=_secrets.get("OPENAI_API_KEY"))
 
-DB_URL = f"postgresql://{RDS_USER}:{RDS_PASS}@{RDS_HOST}/{RDS_DB}"
+if None in (RDS_HOST, RDS_USER, RDS_PASS, RDS_DB):
+    DB_URL = "sqlite:///./test.db"
+else:
+    DB_URL = f"postgresql://{RDS_USER}:{RDS_PASS}@{RDS_HOST}/{RDS_DB}"
 S3_BUCKET = "ifs-resumes"
 S3_INDEX_BUCKET = "ifs-resumes-index"
