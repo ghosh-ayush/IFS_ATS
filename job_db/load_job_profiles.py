@@ -2,6 +2,7 @@
 
 import json
 from sqlalchemy import create_engine, Table, Column, Integer, String, Text, MetaData, insert
+from sqlalchemy.dialects.postgresql import ARRAY
 from src.config import DB_URL
 
 engine = create_engine(DB_URL)
@@ -12,7 +13,7 @@ job_profiles = Table(
     Column('id', Integer, primary_key=True),
     Column('title', String(255)),
     Column('description', Text),
-    Column('skills', Text),
+    Column('skills', ARRAY(String)),
     Column('experience_level', String(100))
 )
 
